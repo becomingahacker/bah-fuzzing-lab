@@ -28,18 +28,18 @@ module "secrets" {
 module "user" {
   source      = "./modules/cml2-users"
   count       = local.cfg.pod_count
-  username    = "bahf-pod${count.index + 1}"
+  username    = "bah-fuzz-pod${count.index + 1}"
   password    = lookup(local.passwords_override, "bahf-pod${count.index + 1}", "")
-  fullname    = "BAH Foundations Pod ${count.index + 1} Student"
-  description = "BAH Foundations Pod ${count.index + 1} Student"
-  email       = "bahf-pod${count.index + 1}@${local.cfg.domain_name}"
+  fullname    = "BAH Fuzzing Pod ${count.index + 1} Student"
+  description = "BAH Fuzzing Pod ${count.index + 1} Student"
+  email       = "bah-fuzz-pod${count.index + 1}@${local.cfg.domain_name}"
   is_admin    = false
 }
 
 module "pod" {
   source                    = "./modules/cml2-foundations-lab"
   count                     = local.cfg.pod_count
-  title                     = format("Becoming a Hacker Foundations - Pod %02d", count.index + 1)
+  title                     = format("Becoming a Hacker Fuzzing - Pod %02d", count.index + 1)
   pod_number                = count.index + 1
   ip_prefix                 = cidrsubnet("10.0.0.0/8", 8, count.index + 1)
   global_ipv4_address       = cidrhost(local.cfg.cml.global_ipv4_prefix, count.index + 1)
@@ -58,8 +58,8 @@ module "pod" {
 module "group" {
   source      = "./modules/cml2-group"
   count       = local.cfg.pod_count
-  group_name  = format("bahf-pod%d", count.index + 1)
-  description = format("Permission group for bahf-pod%d", count.index + 1)
+  group_name  = format("bah-fuzzing-pod%d", count.index + 1)
+  description = format("Permission group for bah-fuzzingf-pod%d", count.index + 1)
   member_ids  = [module.user[count.index].user_id]
   lab_ids     = [module.pod[count.index].lab_id]
   permission  = "read_write"

@@ -24,7 +24,7 @@ terraform {
 
   backend "gcs" {
     bucket = "bah-cml-terraform-state"
-    prefix = "bah-foundations-lab/state"
+    prefix = "bah-fuzzing-lab/state"
   }
 }
 
