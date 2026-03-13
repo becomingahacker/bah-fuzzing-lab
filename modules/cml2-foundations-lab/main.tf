@@ -14,13 +14,13 @@ locals {
     domain_name = var.domain_name,
   })
 
-  kali_user_data = templatefile("${path.module}/templates/kali.user-data.tftpl", {
+  fuzzing_workshop_user_data = templatefile("${path.module}/templates/fuzzing-workshop.user-data.tftpl", {
     domain_name    = var.domain_name,
     v4_name_server = local.v4_name_server,
     l0_prefix      = local.l0_prefix,
   })
 
-  kali_network_config = templatefile("${path.module}/templates/kali.network-config.tftpl", {
+  fuzzing_workshop_network_config = templatefile("${path.module}/templates/fuzzing-workshop.network-config.tftpl", {
     domain_name    = var.domain_name,
     v4_name_server = local.v4_name_server,
     l0_prefix      = local.l0_prefix,
@@ -35,9 +35,9 @@ resource "cml2_lab" "foundations_lab" {
 
 resource "cml2_node" "kali" {
   lab_id         = cml2_lab.foundations_lab.id
-  label          = "kali"
-  nodedefinition = "kali-linux"
-  imagedefinition = "kali-linux-new"
+  label          = "ubuntu-fuzzing"
+  nodedefinition = "ubuntu-fuzzing"
+  imagedefinition = "ubuntu-fuzzing"
   ram            = 8192
   boot_disk_size = 64
   x              = 80
@@ -46,11 +46,11 @@ resource "cml2_node" "kali" {
   configurations = [
     {
       name    = "user-data"
-      content = local.kali_user_data
+      content = local.fuzzing_workshop_user_data
     },
     {
       name    = "network-config"
-      content = local.kali_network_config
+      content = local.fuzzing_workshop_network_config
     },
   ]
 }
