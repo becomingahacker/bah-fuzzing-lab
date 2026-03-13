@@ -10,7 +10,7 @@
 # This is the configuration file for the Foundations lab environment.
 #
 
-pod_count: 26
+pod_count: 1
 pod_domain_name: pod.becomingahacker.com
 
 # Becoming a Hacker Load Balancer FQDN
