@@ -17,3 +17,8 @@ variable "cfg_extra_vars" {
   description = "extra variable definitions, typically empty"
   default     = null
 }
+
+variable "proxy_token" {
+  type        = string
+  description = "Proxy token to use for authentication"
+}
