@@ -2,21 +2,48 @@
 
 hostname: fuzz-0
 manage_etc_hosts: true
+
+# Allow password authentication over SSH (image default may be "no").
+ssh_pwauth: true
+
+# Set the cisco user's password from a Terraform-generated random value (see
+# the `random_password.cisco_user` resource in this module). The password is
+# surfaced via `tofu output cisco_credentials` on the root module.
+#
+# The baked image locks the cisco account (see scripts/setup.sh in the image
+# repo: `passwd -l cisco`), so cloud-init is expected to both set the password
+# and unlock the account here.
+# `expire: false` prevents the "password expired, must change" prompt on first
+# login, which otherwise blocks both console and SSH logins on CML.
+chpasswd:
+  expire: false
+  users:
+    - name: cisco
+      password: '${replace(cisco_password, "'", "''")}'
+      type: text
+
 users:
-  # kali
-  #- default
+  # ubuntu-fuzzing
+  - default
   - name: cisco
-    gecos: cisco
+    gecos: ubuntu-fuzzing
     shell: /bin/bash
-    plain_text_passwd: cisco
     groups: [adm, audio, cdrom, dialout, floppy, plugdev, sudo, video, dip, netdev, bluetooth, lpadmin]
+    sudo: ALL=(ALL) NOPASSWD:ALL
     lock_passwd: false
+
+bootcmd:
+  # Mask GCE guest agents early so they don't hang boot trying to reach the
+  # GCP metadata server (169.254.169.254) which is unreachable in CML. These
+  # are baked into the Ubuntu cloud image but serve no purpose outside GCE.
+  - systemctl mask --now google-osconfig-agent.service google-guest-agent.service google-guest-agent-manager.service google-startup-scripts.service google-shutdown-scripts.service 2>/dev/null || true
 
 runcmd:
   - set -x
-  - ifdown eth0 && ifup eth0
+  # ifdown/ifup are not present on Ubuntu 24.04 (ifupdown removed); guard the call
+  - command -v ifdown >/dev/null && ifdown eth0 && ifup eth0 || true
   # HACK cmm , integrate
-  - rm /etc/systemd/system/networking.service.d/timeout.conf
+  - rm -f /etc/systemd/system/networking.service.d/timeout.conf
   # Change ownership of /home/cisco to cisco
   - chown -R cisco:cisco /home/cisco
   - dpkg-reconfigure -f noninteractive xorg

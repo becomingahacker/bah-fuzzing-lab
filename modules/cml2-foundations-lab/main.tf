@@ -4,6 +4,15 @@
 # All rights reserved.
 #
 
+resource "random_password" "cisco_user" {
+  length  = 16
+  # Keep the generated password copy-paste friendly from the CML console.
+  # Exclude quoting/escape-prone chars; keep a handful of punctuation to
+  # preserve entropy.
+  special          = true
+  override_special = "!@#%^&*_-+="
+}
+
 locals {
   v4_name_server = "169.254.169.254" # GCP DNS
   v6_name_server = "2620:0:ccc::2"   # OpenDNS IPv6
@@ -18,6 +27,7 @@ locals {
     domain_name    = var.domain_name,
     v4_name_server = local.v4_name_server,
     l0_prefix      = local.l0_prefix,
+    cisco_password = random_password.cisco_user.result,
   })
 
   fuzzing_workshop_network_config = templatefile("${path.module}/templates/fuzzing-workshop.network-config.tftpl", {
@@ -33,7 +43,7 @@ resource "cml2_lab" "foundations_lab" {
   notes       = local.foundations_lab_notes
 }
 
-resource "cml2_node" "kali" {
+resource "cml2_node" "ubuntu-fuzzing" {
   lab_id         = cml2_lab.foundations_lab.id
   label          = "ubuntu-fuzzing"
   nodedefinition = "ubuntu-fuzzing"
@@ -47,11 +57,7 @@ resource "cml2_node" "kali" {
     {
       name    = "user-data"
       content = local.fuzzing_workshop_user_data
-    },
-    {
-      name    = "network-config"
-      content = local.fuzzing_workshop_network_config
-    },
+    }
   ]
 }
 
@@ -63,7 +69,15 @@ resource "cml2_node" "ext-conn-0" {
   x              = 680
   y              = 120
   tags           = ["external_connector"]
-  configuration  = "virbr1"
+  configuration  = "virbr0"
+}
+
+resource "cml2_link" "l0" {
+  lab_id = cml2_lab.foundations_lab.id
+  node_a = cml2_node.ubuntu-fuzzing.id
+  node_b = cml2_node.ext-conn-0.id
+  slot_a = 0
+  slot_b = 1
 }
 
 resource "cml2_lifecycle" "top" {
@@ -86,7 +100,7 @@ resource "cml2_lifecycle" "top" {
   }
 
   depends_on = [
-    cml2_node.kali,
+    cml2_node.ubuntu-fuzzing,
     cml2_node.ext-conn-0
   ]
 }

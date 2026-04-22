@@ -10,6 +10,10 @@ terraform {
       source  = "registry.terraform.io/CiscoDevNet/cml2"
       version = "0.9.0-beta3"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.1"
+    }
   }
   required_version = ">= 1.1.0"
 }
