@@ -1,12 +1,12 @@
-# Jekyll site configuration for the Becoming a Hacker fuzzing workshop docs.
+# Jekyll site configuration for the OS2026 Fuzzing Workshop docs.
 # Rendered automatically by GitHub Pages from this folder on the docs branch
 # and served at https://fuzzing.becomingahacker.com (CNAME alongside this file).
 
-title: "Becoming a Hacker — Fuzzing Workshop"
+title: "OS2026 Fuzzing Workshop"
 description: >-
-  Hands-on lab guide for the Becoming a Hacker fuzzing workshop.
-  Each module walks you through fuzzing concepts, tooling, and exercises
-  on the per-pod ubuntu-fuzzing VM in CML.
+  Hands-on lab guide for the OS2026 Fuzzing Workshop. Each module walks
+  you through fuzzing concepts, tooling, and exercises on the per-pod
+  ubuntu-fuzzing VM in CML.
 url: "https://fuzzing.becomingahacker.com"
 baseurl: ""
 
@@ -20,21 +20,6 @@ remote_theme: just-the-docs/just-the-docs@v0.12.0
 color_scheme: light
 search_enabled: true
 heading_anchors: true
-
-# Top-right "Source on GitHub" link in the theme header.
-aux_links:
-  "Source on GitHub":
-    - "https://github.com/becomingahacker/bah-fuzzing-lab"
-aux_links_new_tab: true
-
-# Per-page "Edit this page on GitHub" link. Sources live in /docs on the
-# docs branch, so point the editor at that path.
-gh_edit_link: true
-gh_edit_link_text: "Edit this page on GitHub"
-gh_edit_repository: "https://github.com/becomingahacker/bah-fuzzing-lab"
-gh_edit_branch: "docs"
-gh_edit_source: "docs"
-gh_edit_view_mode: "edit"
 
 # Markdown engine + flavor (GitHub Flavored Markdown).
 markdown: kramdown

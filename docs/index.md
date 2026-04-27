@@ -4,11 +4,11 @@ nav_order: 1
 permalink: /
 ---
 
-# Becoming a Hacker — Fuzzing Workshop
+# OS2026 Fuzzing Workshop
 
-Welcome. This site is the lab guide for the Becoming a Hacker fuzzing
-workshop. The CML lab notes pane points here; bookmark this page for the
-full set of modules.
+Welcome. This site is the lab guide for the OS2026 Fuzzing Workshop.
+The CML lab notes pane points here; bookmark this page for the full
+set of modules.
 
 Each lab runs on the per-pod `ubuntu-fuzzing` VM provisioned by Terraform
 in your CML pod. SSH access is via the per-pod Ed25519 key shown in the
