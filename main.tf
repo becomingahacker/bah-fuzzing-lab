@@ -53,6 +53,12 @@ module "pod" {
   # HACK - use the same domain name for all pods
   #pod_domain_name               = format("bahf-pod%d.%s", count.index + 1, local.cfg.domain_name)
   domain_name = local.cfg.pod_domain_name
+
+  # Per-pod inbound SSH via the CML controller's PATty. Pod 1 -> 4201, pod 2
+  # -> 4202, ... up to the supported pod count (29). Stays well inside the
+  # default PATty range (2000-7999) and avoids the controller's own services.
+  ssh_pat_external_port = 4200 + count.index + 1
+  cml_controller_fqdn   = local.cfg.lb_fqdn
 }
 
 module "group" {

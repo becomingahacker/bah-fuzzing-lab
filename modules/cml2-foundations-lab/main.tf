@@ -5,12 +5,22 @@
 #
 
 resource "random_password" "cisco_user" {
-  length  = 16
+  length = 16
   # Keep the generated password copy-paste friendly from the CML console.
   # Exclude quoting/escape-prone chars; keep a handful of punctuation to
   # preserve entropy.
   special          = true
   override_special = "!@#%^&*_-+="
+}
+
+# Per-pod Ed25519 keypair for SSH'ing into the ubuntu-fuzzing VM as `cisco`.
+# Ed25519 is preferred over RSA for new keys: smaller, faster, and immune to
+# the ECDSA nonce-reuse class of bugs. Generated at apply time and injected
+# via cloud-init (see authorized_keys below). The private key is surfaced as
+# a sensitive output and is the *only* way to SSH in once we disable password
+# auth in sshd.
+resource "tls_private_key" "ubuntu_fuzzing" {
+  algorithm = "ED25519"
 }
 
 locals {
@@ -24,10 +34,11 @@ locals {
   })
 
   fuzzing_workshop_user_data = templatefile("${path.module}/templates/fuzzing-workshop.user-data.tftpl", {
-    domain_name    = var.domain_name,
-    v4_name_server = local.v4_name_server,
-    l0_prefix      = local.l0_prefix,
-    cisco_password = random_password.cisco_user.result,
+    domain_name      = var.domain_name,
+    v4_name_server   = local.v4_name_server,
+    l0_prefix        = local.l0_prefix,
+    cisco_password   = random_password.cisco_user.result,
+    cisco_public_key = trimspace(tls_private_key.ubuntu_fuzzing.public_key_openssh),
   })
 
   fuzzing_workshop_network_config = templatefile("${path.module}/templates/fuzzing-workshop.network-config.tftpl", {
@@ -44,15 +55,18 @@ resource "cml2_lab" "foundations_lab" {
 }
 
 resource "cml2_node" "ubuntu-fuzzing" {
-  lab_id         = cml2_lab.foundations_lab.id
-  label          = "ubuntu-fuzzing"
-  nodedefinition = "ubuntu-fuzzing"
+  lab_id          = cml2_lab.foundations_lab.id
+  label           = "ubuntu-fuzzing"
+  nodedefinition  = "ubuntu-fuzzing"
   imagedefinition = "ubuntu-fuzzing"
-  ram            = 8192
-  boot_disk_size = 64
-  x              = 80
-  y              = 120
-  tags           = ["host"]
+  ram             = 8192
+  boot_disk_size  = 64
+  x               = 80
+  y               = 120
+  # PATty tag exposes <controller_public_ip>:<ssh_pat_external_port> -> 10.1.1.2:22
+  # so students/operators can SSH in without inbound NAT plumbing on GCP. See
+  # https://developer.cisco.com/docs/modeling-labs/patty-tool-mapping-configuration/
+  tags = ["host", "pat:tcp:${var.ssh_pat_external_port}:22"]
   configurations = [
     {
       name    = "user-data"
@@ -77,7 +91,11 @@ resource "cml2_link" "l0" {
   node_a = cml2_node.ubuntu-fuzzing.id
   node_b = cml2_node.ext-conn-0.id
   slot_a = 0
-  slot_b = 1
+  # external_connector ("Internet") only exposes a single port at slot 0.
+  # Earlier copies of this file declared slot_b=1, which silently drifted
+  # against reality (the controller had created the link at slot 0). Forcing
+  # a link recreate exposed it as `Interface #1 label None is ...` from CML.
+  slot_b = 0
 }
 
 resource "cml2_lifecycle" "top" {
