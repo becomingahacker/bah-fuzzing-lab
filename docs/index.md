@@ -13,12 +13,20 @@ Each lab runs on the per-pod `ubuntu-fuzzing` VM provisioned by Terraform
 in your CML pod. SSH access is via the per-pod Ed25519 key shown in the
 Terraform output; password auth is disabled.
 
-## Lab modules
+## Workshop schedule
 
-1. [Lab 1 — AFL++ basics]({{ '/labs/lab-01-afl-basics/' | relative_url }})
-2. [Lab 2 — libFuzzer + sanitizers]({{ '/labs/lab-02-libfuzzer-sanitizers/' | relative_url }})
+The workshop runs over two days. Each day has its own set of exercises;
+follow them in order.
 
-More modules will be added as the workshop curriculum grows.
+### [Day 1 — Fuzzing fundamentals]({{ '/day-1/' | relative_url }})
+
+1. [Exercise 1 — AFL++ basics]({{ '/day-1/01-afl-basics/' | relative_url }})
+2. [Exercise 2 — libFuzzer + sanitizers]({{ '/day-1/02-libfuzzer-sanitizers/' | relative_url }})
+
+### [Day 2 — Going deeper]({{ '/day-2/' | relative_url }})
+
+1. [Exercise 1 — Structure-aware fuzzing]({{ '/day-2/01-structure-aware-fuzzing/' | relative_url }})
+2. [Exercise 2 — Harnessing & triaging a real target]({{ '/day-2/02-real-target-triage/' | relative_url }})
 
 ## Before you start
 
@@ -33,4 +41,4 @@ More modules will be added as the workshop curriculum grows.
 
 Found a bug or unclear instruction? File an issue on the
 [bah-fuzzing-lab repo](https://github.com/becomingahacker/bah-fuzzing-lab/issues)
-and tag the lab number.
+and tag the day + exercise number.

@@ -1,9 +1,9 @@
 ---
-title: "Lab 1 — AFL++ basics"
-permalink: /labs/lab-01-afl-basics/
+title: "Day 1 · Exercise 1 — AFL++ basics"
+permalink: /day-1/01-afl-basics/
 ---
 
-# Lab 1 — AFL++ basics
+# Day 1 · Exercise 1 — AFL++ basics
 
 > Placeholder content — fill in with the real lab steps.
 
@@ -22,7 +22,7 @@ permalink: /labs/lab-01-afl-basics/
 4. Run `afl-fuzz -i seeds -o out -- ./target @@`.
 5. Inspect crashes under `out/default/crashes/` and reproduce one.
 
-## Next
+## Navigation
 
-- [Lab 2 — libFuzzer + sanitizers]({{ '/labs/lab-02-libfuzzer-sanitizers/' | relative_url }})
-- [Back to home]({{ '/' | relative_url }})
+- [Back to Day 1 index]({{ '/day-1/' | relative_url }})
+- [Next: Exercise 2 — libFuzzer + sanitizers]({{ '/day-1/02-libfuzzer-sanitizers/' | relative_url }})

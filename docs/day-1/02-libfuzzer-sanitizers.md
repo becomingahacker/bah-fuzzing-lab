@@ -1,9 +1,9 @@
 ---
-title: "Lab 2 — libFuzzer + sanitizers"
-permalink: /labs/lab-02-libfuzzer-sanitizers/
+title: "Day 1 · Exercise 2 — libFuzzer + sanitizers"
+permalink: /day-1/02-libfuzzer-sanitizers/
 ---
 
-# Lab 2 — libFuzzer + sanitizers
+# Day 1 · Exercise 2 — libFuzzer + sanitizers
 
 > Placeholder content — fill in with the real lab steps.
 
@@ -25,7 +25,8 @@ permalink: /labs/lab-02-libfuzzer-sanitizers/
 5. Read the sanitizer report on the first crash; classify the bug.
 6. Minimize the crashing input: `./harness -minimize_crash=1 crash-<hash>`.
 
-## Next
+## Navigation
 
-- [Back to lab index]({{ '/' | relative_url }}#lab-modules)
-- [Previous: Lab 1 — AFL++ basics]({{ '/labs/lab-01-afl-basics/' | relative_url }})
+- [Back to Day 1 index]({{ '/day-1/' | relative_url }})
+- [Previous: Exercise 1 — AFL++ basics]({{ '/day-1/01-afl-basics/' | relative_url }})
+- [Continue to Day 2 →]({{ '/day-2/' | relative_url }})

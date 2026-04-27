@@ -1,6 +1,6 @@
 ---
 title: Environment setup
-permalink: /setup/
+permalink: /build/
 ---
 
 # Environment setup
@@ -33,5 +33,6 @@ Run `which afl-fuzz clang++` to confirm.
 
 ## Where to next
 
-- [Lab 1 — AFL++ basics]({{ '/labs/lab-01-afl-basics/' | relative_url }})
+- [Day 1 — Fuzzing fundamentals]({{ '/day-1/' | relative_url }})
+- [Day 2 — Going deeper]({{ '/day-2/' | relative_url }})
 - [Back to home]({{ '/' | relative_url }})
