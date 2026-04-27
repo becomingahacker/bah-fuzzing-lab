@@ -1,0 +1,46 @@
+# Jekyll site configuration for the Becoming a Hacker fuzzing workshop docs.
+# Rendered automatically by GitHub Pages from this folder on the docs branch
+# and served at https://fuzzing.becomingahacker.com (CNAME alongside this file).
+
+title: "Becoming a Hacker — Fuzzing Workshop"
+description: >-
+  Hands-on lab guide for the Becoming a Hacker fuzzing workshop.
+  Each module walks you through fuzzing concepts, tooling, and exercises
+  on the per-pod ubuntu-fuzzing VM in CML.
+url: "https://fuzzing.becomingahacker.com"
+baseurl: ""
+
+# Theme: GitHub Pages' default. minima is on the GitHub Pages allow-list, so
+# we don't need a Gemfile for the site to build.
+# https://pages.github.com/themes/
+theme: minima
+
+# Markdown engine + flavor (GitHub Flavored Markdown).
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# GitHub Pages allow-listed plugins. Safe to enable on github.io / Pages.
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Apply layout: page to every markdown file by default so we don't have to
+# repeat it in every front matter block. Individual pages can still override.
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: page
+
+# Don't try to publish Terraform / repo files that may sneak in if someone
+# accidentally drops them in this folder.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - "*.tf"
+  - "*.tftpl"
