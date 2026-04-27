@@ -29,6 +29,11 @@ variable "global_ipv4_netmask" {
   description = "Global IP netmask for the pod"
 }
 
+variable "global_ipv4_prefix_length" {
+  type        = number
+  description = "Prefix length (CIDR mask bits) of the BYOIP /27 the pod address is carved from. Used to render the netplan config that pins the per-pod /32 onto ens3 with the controller's virbr1 as the on-link gateway."
+}
+
 variable "global_ipv6_address" {
   type        = string
   description = "Global IPv6 address for the pod"

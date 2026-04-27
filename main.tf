@@ -44,6 +44,7 @@ module "pod" {
   ip_prefix                 = cidrsubnet("10.0.0.0/8", 8, count.index + 1)
   global_ipv4_address       = cidrhost(local.cfg.cml.global_ipv4_prefix, count.index + 1)
   global_ipv4_netmask       = cidrnetmask(local.cfg.cml.global_ipv4_prefix)
+  global_ipv4_prefix_length = tonumber(split("/", local.cfg.cml.global_ipv4_prefix)[1])
   global_ipv6_prefix        = cidrsubnet(local.cfg.cml.global_ipv6_prefix, 8, count.index + 1)
   global_ipv6_address       = cidrhost(cidrsubnet(local.cfg.cml.global_ipv6_prefix, 8, 0), count.index + 1)
   global_ipv6_prefix_length = 64

@@ -34,11 +34,14 @@ locals {
   })
 
   fuzzing_workshop_user_data = templatefile("${path.module}/templates/fuzzing-workshop.user-data.tftpl", {
-    domain_name      = var.domain_name,
-    v4_name_server   = local.v4_name_server,
-    l0_prefix        = local.l0_prefix,
-    cisco_password   = random_password.cisco_user.result,
-    cisco_public_key = trimspace(tls_private_key.ubuntu_fuzzing.public_key_openssh),
+    domain_name               = var.domain_name,
+    v4_name_server            = local.v4_name_server,
+    l0_prefix                 = local.l0_prefix,
+    cisco_password            = random_password.cisco_user.result,
+    cisco_public_key          = trimspace(tls_private_key.ubuntu_fuzzing.public_key_openssh),
+    global_ipv4_address       = var.global_ipv4_address,
+    global_ipv4_prefix_length = var.global_ipv4_prefix_length,
+    bgp_ipv4_peer             = var.bgp_ipv4_peer,
   })
 
   fuzzing_workshop_network_config = templatefile("${path.module}/templates/fuzzing-workshop.network-config.tftpl", {

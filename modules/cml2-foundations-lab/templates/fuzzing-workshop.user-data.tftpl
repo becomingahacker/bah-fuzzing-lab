@@ -57,8 +57,12 @@ bootcmd:
 
 runcmd:
   - set -x
-  # ifdown/ifup are not present on Ubuntu 24.04 (ifupdown removed); guard the call
-  - command -v ifdown >/dev/null && ifdown eth0 && ifup eth0 || true
+  # Apply the netplan drop-in written below to bring up the per-pod /32 on
+  # ens3. Cloud-init's network-config module is disabled in the baked image
+  # (/etc/cloud/cloud.cfg.d/99_disable_networking_config.cfg), so we have to
+  # write our own netplan file and apply it explicitly. `netplan apply` is
+  # idempotent and safe to re-run.
+  - netplan apply
   # HACK cmm , integrate
   - rm -f /etc/systemd/system/networking.service.d/timeout.conf
   # Change ownership of /home/cisco to cisco
@@ -106,18 +110,37 @@ write_files:
       Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com
       MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com
 
-  # Enable IPv4 static and SLAAC on eth0
-  - path: /etc/network/interfaces.d/eth0
+  # Per-pod IPv4 static config for ens3, applied via netplan in runcmd above.
+  #   - The pod's /32 (e.g. 172.98.19.193) is pinned directly onto ens3 with
+  #     the BYOIP /27 prefix length; the controller's virbr1 address
+  #     (`bgp_ipv4_peer`, e.g. 172.98.19.222) is the on-link gateway.
+  #   - `dhcp4: false` because there is no IPv4 DHCP server on the upstream
+  #     external_connector ("virbr0"); previous reliance on cloud-init's
+  #     network module silently no-op'd because it is disabled in the baked
+  #     image (/etc/cloud/cloud.cfg.d/99_disable_networking_config.cfg).
+  #   - `dhcp6: false` + `accept-ra: true` keeps the SLAAC-derived global
+  #     IPv6 + DHCPv6 /128 path working without us hardcoding the per-pod
+  #     IPv6 here.
+  # Mode 0600 is required by netplan (it warns/fails on world-readable
+  # configs because they may carry secrets like Wi-Fi PSKs).
+  - path: /etc/netplan/60-bah-fuzzing.yaml
+    permissions: '0600'
+    owner: root:root
     content: |
-      auto eth0
-      iface eth0 inet static
-        address 10.1.1.2
-        netmask 255.255.255.0
-        gateway 10.1.1.1
-        dns-nameserver 10.1.1.5
-        dns-search pod.becomingahacker.com
-
-      iface eth0 inet6 auto
+      # Managed by Terraform (modules/cml2-foundations-lab). Do not edit.
+      network:
+        version: 2
+        ethernets:
+          ens3:
+            dhcp4: false
+            dhcp6: false
+            accept-ra: true
+            addresses:
+              - ${global_ipv4_address}/${global_ipv4_prefix_length}
+            routes:
+              - to: default
+                via: ${bgp_ipv4_peer}
+                on-link: true
 
   # Auto-login cisco user for VNC/desktop (e.g. CML console)
   - path: /etc/lightdm/lightdm.conf.d/50-autologin-cisco.conf
