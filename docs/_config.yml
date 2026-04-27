@@ -15,6 +15,15 @@ baseurl: ""
 # https://pages.github.com/themes/
 theme: minima
 
+# minima auto-lists every page in the top nav, which clutters fast once we
+# add per-exercise pages. Pin the header to just the day landing pages and
+# the environment setup page; exercises are listed in the body of each
+# day's index. Order here is the order they appear in the header.
+header_pages:
+  - day-1/index.md
+  - day-2/index.md
+  - setup.md
+
 # Markdown engine + flavor (GitHub Flavored Markdown).
 markdown: kramdown
 kramdown:

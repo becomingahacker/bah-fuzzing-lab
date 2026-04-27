@@ -1,5 +1,5 @@
 ---
-title: "Day 1 — Fuzzing fundamentals"
+title: "Day 1"
 permalink: /day-1/
 ---
 

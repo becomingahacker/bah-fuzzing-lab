@@ -1,5 +1,5 @@
 ---
-title: "Day 2 — Going deeper"
+title: "Day 2"
 permalink: /day-2/
 ---
 
