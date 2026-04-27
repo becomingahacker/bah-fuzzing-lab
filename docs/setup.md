@@ -1,6 +1,6 @@
 ---
 title: Environment setup
-permalink: /build/
+permalink: /setup/
 ---
 
 # Environment setup
