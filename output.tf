@@ -42,7 +42,7 @@ output "ubuntu_fuzzing_ssh" {
 
 # Per-pod Ed25519 SSH private keys (OpenSSH PEM) for the ubuntu-fuzzing
 # VM's `cisco` user. SSH password auth is disabled on the VM, so this is
-# the only way in over the PATty-exposed public path. Keys are generated
+# the only way in over the public per-pod /32 path. Keys are generated
 # fresh on every `tofu apply` that recreates the module instance, mirroring
 # the existing password-regeneration behavior; rotate students' workstation
 # copies accordingly.

@@ -63,10 +63,7 @@ resource "cml2_node" "ubuntu-fuzzing" {
   boot_disk_size  = 64
   x               = 80
   y               = 120
-  # PATty tag exposes <controller_public_ip>:<ssh_pat_external_port> -> 10.1.1.2:22
-  # so students/operators can SSH in without inbound NAT plumbing on GCP. See
-  # https://developer.cisco.com/docs/modeling-labs/patty-tool-mapping-configuration/
-  tags = ["host", "pat:tcp:${var.ssh_pat_external_port}:22"]
+  tags            = ["host"]
   configurations = [
     {
       name    = "user-data"

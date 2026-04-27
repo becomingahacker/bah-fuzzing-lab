@@ -41,11 +41,8 @@ output "cisco_ssh_public_key_fingerprint_sha256" {
   value = tls_private_key.ubuntu_fuzzing.public_key_fingerprint_sha256
 }
 
-# SSH endpoint info for the ubuntu-fuzzing VM. We now route the per-pod
-# /32 (`var.global_ipv4_address`) directly to the VM and SSH on tcp/22, so
-# there's no PATty hop for SSH anymore. (The PATty tag on the node and
-# `var.ssh_pat_external_port` are kept for now as a fallback path; remove
-# once the BGP-advertised /32 path has been validated end-to-end.)
+# SSH endpoint info for the ubuntu-fuzzing VM. We route the per-pod /32
+# (`var.global_ipv4_address`) directly to the VM and SSH on tcp/22.
 #
 # The rendered `command` points at a per-pod private-key path that the
 # operator is expected to write the private key to (see
