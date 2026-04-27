@@ -10,19 +10,31 @@ description: >-
 url: "https://fuzzing.becomingahacker.com"
 baseurl: ""
 
-# Theme: GitHub Pages' default. minima is on the GitHub Pages allow-list, so
-# we don't need a Gemfile for the site to build.
-# https://pages.github.com/themes/
-theme: minima
+# Theme: just-the-docs, pulled in at build time via GitHub Pages'
+# jekyll-remote-theme support. Pinned to v0.12.0 for reproducibility;
+# bump deliberately when there is a reason to.
+# https://just-the-docs.com/
+remote_theme: just-the-docs/just-the-docs@v0.12.0
 
-# minima auto-lists every page in the top nav, which clutters fast once we
-# add per-exercise pages. Pin the header to just the day landing pages and
-# the environment setup page; exercises are listed in the body of each
-# day's index. Order here is the order they appear in the header.
-header_pages:
-  - day-1/index.md
-  - day-2/index.md
-  - setup.md
+# Theme features.
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+
+# Top-right "Source on GitHub" link in the theme header.
+aux_links:
+  "Source on GitHub":
+    - "https://github.com/becomingahacker/bah-fuzzing-lab"
+aux_links_new_tab: true
+
+# Per-page "Edit this page on GitHub" link. Sources live in /docs on the
+# docs branch, so point the editor at that path.
+gh_edit_link: true
+gh_edit_link_text: "Edit this page on GitHub"
+gh_edit_repository: "https://github.com/becomingahacker/bah-fuzzing-lab"
+gh_edit_branch: "docs"
+gh_edit_source: "docs"
+gh_edit_view_mode: "edit"
 
 # Markdown engine + flavor (GitHub Flavored Markdown).
 markdown: kramdown
@@ -30,23 +42,16 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 
-# GitHub Pages allow-listed plugins. Safe to enable on github.io / Pages.
+# GitHub-Pages-allow-listed plugins. jekyll-remote-theme is required to
+# pull in just-the-docs from its GitHub repo at build time.
 plugins:
-  - jekyll-feed
+  - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-feed
 
-# Apply layout: page to every markdown file by default so we don't have to
-# repeat it in every front matter block. Individual pages can still override.
-defaults:
-  - scope:
-      path: ""
-      type: pages
-    values:
-      layout: page
-
-# Don't try to publish Terraform / repo files that may sneak in if someone
-# accidentally drops them in this folder.
+# Don't try to publish Terraform / repo files that may sneak into this
+# folder via merge or stray editor save.
 exclude:
   - Gemfile
   - Gemfile.lock

@@ -1,9 +1,11 @@
 ---
-title: "Day 1 · Exercise 1 — AFL++ basics"
+title: "Exercise 1 — AFL++ basics"
+parent: Day 1
+nav_order: 1
 permalink: /day-1/01-afl-basics/
 ---
 
-# Day 1 · Exercise 1 — AFL++ basics
+# Exercise 1 — AFL++ basics
 
 > Placeholder content — fill in with the real lab steps.
 
@@ -21,8 +23,3 @@ permalink: /day-1/01-afl-basics/
 3. Prepare a `seeds/` directory with a couple of valid inputs.
 4. Run `afl-fuzz -i seeds -o out -- ./target @@`.
 5. Inspect crashes under `out/default/crashes/` and reproduce one.
-
-## Navigation
-
-- [Back to Day 1 index]({{ '/day-1/' | relative_url }})
-- [Next: Exercise 2 — libFuzzer + sanitizers]({{ '/day-1/02-libfuzzer-sanitizers/' | relative_url }})

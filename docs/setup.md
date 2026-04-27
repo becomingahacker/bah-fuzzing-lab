@@ -1,5 +1,6 @@
 ---
 title: Environment setup
+nav_order: 2
 permalink: /setup/
 ---
 
@@ -30,9 +31,3 @@ The image ships with (non-exhaustive):
 - Common build tooling: `cmake`, `ninja`, `make`, `pkg-config`
 
 Run `which afl-fuzz clang++` to confirm.
-
-## Where to next
-
-- [Day 1 — Fuzzing fundamentals]({{ '/day-1/' | relative_url }})
-- [Day 2 — Going deeper]({{ '/day-2/' | relative_url }})
-- [Back to home]({{ '/' | relative_url }})

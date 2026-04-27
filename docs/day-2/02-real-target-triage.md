@@ -1,9 +1,11 @@
 ---
-title: "Day 2 · Exercise 2 — Harnessing & triaging a real target"
+title: "Exercise 2 — Harnessing & triaging a real target"
+parent: Day 2
+nav_order: 2
 permalink: /day-2/02-real-target-triage/
 ---
 
-# Day 2 · Exercise 2 — Harnessing & triaging a real target
+# Exercise 2 — Harnessing & triaging a real target
 
 > Placeholder content — fill in with the real lab steps.
 
@@ -31,9 +33,3 @@ permalink: /day-2/02-real-target-triage/
 
 - Discuss findings with your group.
 - File the most interesting finding in the workshop tracker.
-
-## Navigation
-
-- [Back to Day 2 index]({{ '/day-2/' | relative_url }})
-- [Previous: Exercise 1 — Structure-aware fuzzing]({{ '/day-2/01-structure-aware-fuzzing/' | relative_url }})
-- [Back to home]({{ '/' | relative_url }})

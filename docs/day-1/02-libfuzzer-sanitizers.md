@@ -1,9 +1,11 @@
 ---
-title: "Day 1 · Exercise 2 — libFuzzer + sanitizers"
+title: "Exercise 2 — libFuzzer + sanitizers"
+parent: Day 1
+nav_order: 2
 permalink: /day-1/02-libfuzzer-sanitizers/
 ---
 
-# Day 1 · Exercise 2 — libFuzzer + sanitizers
+# Exercise 2 — libFuzzer + sanitizers
 
 > Placeholder content — fill in with the real lab steps.
 
@@ -24,9 +26,3 @@ permalink: /day-1/02-libfuzzer-sanitizers/
 4. Run: `./harness -max_total_time=120 corpus/`.
 5. Read the sanitizer report on the first crash; classify the bug.
 6. Minimize the crashing input: `./harness -minimize_crash=1 crash-<hash>`.
-
-## Navigation
-
-- [Back to Day 1 index]({{ '/day-1/' | relative_url }})
-- [Previous: Exercise 1 — AFL++ basics]({{ '/day-1/01-afl-basics/' | relative_url }})
-- [Continue to Day 2 →]({{ '/day-2/' | relative_url }})

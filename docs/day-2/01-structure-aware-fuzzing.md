@@ -1,9 +1,11 @@
 ---
-title: "Day 2 · Exercise 1 — Structure-aware fuzzing"
+title: "Exercise 1 — Structure-aware fuzzing"
+parent: Day 2
+nav_order: 1
 permalink: /day-2/01-structure-aware-fuzzing/
 ---
 
-# Day 2 · Exercise 1 — Structure-aware fuzzing
+# Exercise 1 — Structure-aware fuzzing
 
 > Placeholder content — fill in with the real lab steps.
 
@@ -24,8 +26,3 @@ permalink: /day-2/01-structure-aware-fuzzing/
 3. Add a dictionary file and rerun; record the delta.
 4. Implement a libFuzzer custom mutator using the provided protobuf schema.
 5. Diff the crashes / coverage edges between the two approaches.
-
-## Navigation
-
-- [Back to Day 2 index]({{ '/day-2/' | relative_url }})
-- [Next: Exercise 2 — Harnessing & triaging a real target]({{ '/day-2/02-real-target-triage/' | relative_url }})
