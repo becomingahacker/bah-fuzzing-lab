@@ -7,3 +7,4 @@ terraform.tfstate*
 tfstate*
 cml_credentials.json
 cml_credentials.csv
+welcome-packets/

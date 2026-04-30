@@ -42,6 +42,7 @@ locals {
     global_ipv4_address       = var.global_ipv4_address,
     global_ipv4_prefix_length = var.global_ipv4_prefix_length,
     bgp_ipv4_peer             = var.bgp_ipv4_peer,
+    pod_number                = var.pod_number,
   })
 
   fuzzing_workshop_network_config = templatefile("${path.module}/templates/fuzzing-workshop.network-config.tftpl", {
@@ -83,7 +84,11 @@ resource "cml2_node" "ext-conn-0" {
   x              = 680
   y              = 120
   tags           = ["external_connector"]
-  configuration  = "virbr0"
+  configuration = "virbr1"
+
+  lifecycle {
+    ignore_changes = [configuration]
+  }
 }
 
 resource "cml2_link" "l0" {

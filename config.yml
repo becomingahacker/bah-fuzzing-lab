@@ -8,8 +8,21 @@
 # This is the configuration file for the Foundations lab environment.
 #
 
-# Up to 29 pods can be created, limited by IPv4 address space and compute resources
-pod_count: 1
+# Per-pod /32 packing: pods are placed at host index pod_index_start within
+# cml.global_ipv4_prefix (and the matching IPv6 sub-prefix), stepping by
+# cml.pod_index_step for each subsequent pod. With the defaults below
+# (start=1, step=1) pods fill the low end of the /25 first; this BYOIP
+# block is dedicated to the fuzzing lab, so we no longer need to share it
+# with the foundations lab and can pack from the bottom up.
+#
+# Hard upper bound is determined by the prefix length:
+#   /27 -> 30 host indices (1..30)
+#   /26 -> 62 host indices
+#   /25 -> 126 host indices (1..126, with .126 reserved as the BGP gateway
+#          in the current allocation, so effectively 125 usable for pods)
+# Make sure pod_count fits within the range that pod_index_start /
+# pod_index_step carves out (and does not collide with the BGP gateway).
+pod_count: 30
 pod_domain_name: pod.becomingahacker.com
 
 # Becoming a Hacker Load Balancer FQDN
@@ -41,10 +54,17 @@ gcp:
   dns_zone_name: becomingahacker-com
 
 cml:
-  bgp_ipv6_peer: "2602:80a:f004:200::ffff"
-  bgp_ipv4_peer: "172.98.19.222"
-  global_ipv6_prefix: "2602:80a:f004:200::/56"
-  global_ipv4_prefix: "172.98.19.192/27"
+  bgp_ipv6_peer: "2602:80a:f006::ffff"
+  bgp_ipv4_peer: "172.98.18.126"
+  global_ipv6_prefix: "2602:80a:f006::/56"
+  global_ipv4_prefix: "172.98.18.0/25"
+  # Where the first fuzzing pod's /32 lands within global_ipv4_prefix, and
+  # the step between successive pods. start=1, step=1 places pod 1 at
+  # cidrhost(prefix, 1) (= .1 within /25) and grows upward (.2, .3, ...).
+  # The BGP gateway lives at .126 (cidrhost(prefix, 126)) so pods can
+  # safely climb up through ~.125 before colliding with it.
+  pod_index_start: 1
+  pod_index_step: 1
 
 secret:
   # At this time, 'vault', 'conjur' and 'dummy' are supported secrets managers.

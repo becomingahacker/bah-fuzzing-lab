@@ -18,6 +18,18 @@ locals {
     fileexists(var.cfg_extra_vars) ? file(var.cfg_extra_vars) : var.cfg_extra_vars
   )
   passwords_override = fileexists("${path.root}/cml_credentials.json") ? jsondecode(file("${path.root}/cml_credentials.json")) : {}
+
+  # Per-pod host index within cml.global_ipv4_prefix (and matching IPv6
+  # sub-prefix index within cml.global_ipv6_prefix). Configured by
+  # cml.pod_index_start / cml.pod_index_step in config.yml. The fuzzing
+  # lab now owns its own BYOIP block (a /25), so we pack from the bottom
+  # up (start=1, step=1) starting at cidrhost(prefix, 1). Centralizing
+  # this here means switching prefixes or packing direction is a one-line
+  # change in config.yml.
+  pod_indices = [
+    for i in range(local.cfg.pod_count) :
+    local.cfg.cml.pod_index_start + i * local.cfg.cml.pod_index_step
+  ]
 }
 
 module "secrets" {
@@ -39,14 +51,14 @@ module "user" {
 module "pod" {
   source                    = "./modules/cml2-foundations-lab"
   count                     = local.cfg.pod_count
-  title                     = format("Becoming a Hacker Fuzzing - Pod %02d", count.index + 1)
+  title                     = format("OS2026 Fuzzing Workshop - %02d", count.index + 1)
   pod_number                = count.index + 1
   ip_prefix                 = cidrsubnet("10.0.0.0/8", 8, count.index + 1)
-  global_ipv4_address       = cidrhost(local.cfg.cml.global_ipv4_prefix, count.index + 1)
+  global_ipv4_address       = cidrhost(local.cfg.cml.global_ipv4_prefix, local.pod_indices[count.index])
   global_ipv4_netmask       = cidrnetmask(local.cfg.cml.global_ipv4_prefix)
   global_ipv4_prefix_length = tonumber(split("/", local.cfg.cml.global_ipv4_prefix)[1])
-  global_ipv6_prefix        = cidrsubnet(local.cfg.cml.global_ipv6_prefix, 8, count.index + 1)
-  global_ipv6_address       = cidrhost(cidrsubnet(local.cfg.cml.global_ipv6_prefix, 8, 0), count.index + 1)
+  global_ipv6_prefix        = cidrsubnet(local.cfg.cml.global_ipv6_prefix, 8, local.pod_indices[count.index])
+  global_ipv6_address       = cidrhost(cidrsubnet(local.cfg.cml.global_ipv6_prefix, 8, 0), local.pod_indices[count.index])
   global_ipv6_prefix_length = 64
   bgp_ipv6_peer             = local.cfg.cml.bgp_ipv6_peer
   bgp_ipv4_peer             = local.cfg.cml.bgp_ipv4_peer

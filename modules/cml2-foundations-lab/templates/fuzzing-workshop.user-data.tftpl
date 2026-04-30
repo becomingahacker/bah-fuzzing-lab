@@ -1,6 +1,6 @@
 #cloud-config
 
-hostname: fuzz-0
+hostname: fuzz-${pod_number}
 manage_etc_hosts: true
 
 # SSH password authentication is DISABLED. The ubuntu-fuzzing VM is exposed
@@ -111,9 +111,9 @@ write_files:
       MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com
 
   # Per-pod IPv4 static config for ens3, applied via netplan in runcmd above.
-  #   - The pod's /32 (e.g. 172.98.19.193) is pinned directly onto ens3 with
-  #     the BYOIP /27 prefix length; the controller's virbr1 address
-  #     (`bgp_ipv4_peer`, e.g. 172.98.19.222) is the on-link gateway.
+  #   - The pod's /32 (e.g. 172.98.18.1) is pinned directly onto ens3 with
+  #     the BYOIP /25 prefix length; the controller's virbr1 address
+  #     (`bgp_ipv4_peer`, e.g. 172.98.18.126) is the on-link gateway.
   #   - `dhcp4: false` because there is no IPv4 DHCP server on the upstream
   #     external_connector ("virbr0"); previous reliance on cloud-init's
   #     network module silently no-op'd because it is disabled in the baked

@@ -65,26 +65,26 @@ tofu output -json | jq .cml_credentials.value
 > as well.  Lab Engineering or an AURYN admin can help you do this.
 
 We already have Publicly Advertised Prefixes (PAPs) and Publicly Delegated
-Prefixes (PDPs) set up for `ASIG-BAH-GCP`.  Becoming a Hacker Foundations has
-one `/27` [delegated to
+Prefixes (PDPs) set up for `ASIG-BAH-GCP`.  The fuzzing lab now has its own
+`/25` [delegated to
 it](https://console.cloud.google.com/networking/byoip/list?invt=Abms5A&project=gcp-asigbahgcp-nprd-47930)
-in `us-east1`. This should allow for **29 pods** with Cisco IPs, the current
-ultimate limit of the system without using Google Cloud IPs. This prefix's
-external IPs can be used with GCE VMs or a Load Balancer:
+in `us-east1`. This gives us plenty of headroom for **30 pods** (and then
+some) with Cisco IPs, well clear of the previous shared-/27 ceiling. This
+prefix's external IPs can be used with GCE VMs or a Load Balancer:
 
-* `172.98.19.192/27`
+* `172.98.18.0/25`
 
 > [!IMPORTANT]
 > A note about using BYOIPv4 and various hacks:
-> 
-> The all-zeros "network" IP and last usable IP (`172.98.19.192` externally NATed by
-> Google to the `ens5` interface and `172.98.19.222/27` on `virbr1`) are reserved
-> for the CML controller.  The all-ones directed broadcast IP (`172.98.19.223`) IP
+>
+> The all-zeros "network" IP and last usable IP (`172.98.18.0` externally NATed by
+> Google to the `ens5` interface and `172.98.18.126/25` on `virbr1`) are reserved
+> for the CML controller.  The all-ones directed broadcast IP (`172.98.18.127`)
 > can only be used for VMs (NATed by Google), and not forwarding rules, **unless**
 > using as a forwarding rule for a `/32` loopback on the target device.  This
-> means we have (`172.98.19.223/32`) available for general use in BAH as long as
-> it's routed (e.g. with BGP or static) as a `/32` internally. Otherwise it's lost
-> to that `/27` prefix according to the typical IPv4 routing behavior.
+> means we have (`172.98.18.127/32`) available for general use as long as it's
+> routed (e.g. with BGP or static) as a `/32` internally. Otherwise it's lost
+> to that `/25` prefix according to the typical IPv4 routing behavior.
 
 > [!WARNING]
 > These IPs have a good reputation associated with them, whereas some services
@@ -95,13 +95,10 @@ external IPs can be used with GCE VMs or a Load Balancer:
 Example using gloud CLI:
 
 ```
-$ gcloud compute public-delegated-prefixes describe asig-bah-prod-us-east1-sub-172-98-19-192-27
+$ gcloud compute public-delegated-prefixes describe asig-bah-prod-us-east1-sub-172-98-18-0-25
 byoipApiVersion: V2
-creationTimestamp: '2025-09-07T15:08:07.396-07:00'
 description: ASIG Becoming A Hacker us-east1 IPv4 Sub-delegation
-fingerprint: YQmQcWmLeDo=
-id: '1653030626344025256'
-ipCidrRange: 172.98.19.192/27
+ipCidrRange: 172.98.18.0/25
 kind: compute#publicDelegatedPrefix
 ...
 status: ANNOUNCED_TO_INTERNET
