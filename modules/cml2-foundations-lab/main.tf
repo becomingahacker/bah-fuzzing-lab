@@ -84,7 +84,7 @@ resource "cml2_node" "ext-conn-0" {
   x              = 680
   y              = 120
   tags           = ["external_connector"]
-  configurations = "virbr1"
+  configurations = "bridge0"
 }
 
 resource "cml2_link" "l0" {
