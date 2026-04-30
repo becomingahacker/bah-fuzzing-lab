@@ -84,11 +84,7 @@ resource "cml2_node" "ext-conn-0" {
   x              = 680
   y              = 120
   tags           = ["external_connector"]
-  configuration = "virbr1"
-
-  lifecycle {
-    ignore_changes = [configuration]
-  }
+  configurations = "virbr1"
 }
 
 resource "cml2_link" "l0" {
