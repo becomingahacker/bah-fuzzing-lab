@@ -1,32 +1,39 @@
 ---
 title: Home
+layout: home
 nav_order: 1
-permalink: /
 ---
 
 # OS2026 Fuzzing Workshop
 
-Welcome. This site is the lab guide for the OS2026 Fuzzing Workshop.
-The CML lab notes pane points here; bookmark this page for the full
-set of modules.
+Welcome! This is the lab guide for the **OS2026 Fuzzing Workshop**, a two-day workshop
+to get you hands-on experience with coverage-guided fuzzing.
+You will build fuzzing harnesses for real commercial software, run them with both LibFuzzer and AFL++, and learn to triage crashes.
 
-Each lab runs on the per-pod `ubuntu-fuzzing` VM provisioned by Terraform
-in your CML pod. SSH access is via the per-pod Ed25519 key shown in the
-Terraform output; password auth is disabled.
+## What you'll do
 
-## Before you start
+- **Day 1 — Snort 3 with LibFuzzer.** Build a fuzzer for Snort 3's  `bootp` service detector,
+  and tweak it for coverage and stability until it finds a real crash.
+- **Day 2 — Closed-source firmware with AFL++ QEMU mode.** Deep inside an extracted Sophos Firewall OS firwmare,
+  you'll learn to do some light reverse engineering, convert an executable to a fuzzable shared
+  library with LIEF, and run AFL++ with CMPLOG and QASAN in hopes of finding a new bug.
+- **Bonus Challenge — Parking Game.** Use a fuzzer to solve a puzzle game. Great practice for writing fuzzers for stateful targets.
+  There is less instruction on this one, so make sure to ask questions if stuck.
 
-- Confirm you can reach the per-pod VM via SSH using the Ed25519 key from
-  your pod's Terraform output.
-- Confirm the VM has Internet access (the lab's `external_connector`
-  uplink should give you DNS and HTTPS out).
-- Skim the [environment overview]({{ '/setup/' | relative_url }}) for the
-  tooling pre-installed on the image.
+## How the lab is set up
 
-Use the sidebar to navigate to each day's exercises.
+Each attendee gets their own pod on Cisco Modeling Labs. Inside the pod is an
+Ubuntu VM with the dependencies, target sources, and everything 
+pre-staged for you so you can focus on learning to build fuzzing harnesses.
+The lessons assume you are working on that VM, but every
+step is reproducible on any modern Ubuntu/Linux box if you want to follow along
+later.
 
-## Reporting issues
+You will receive pod credentials from your instructor. If something
+is missing or the VM looks empty, speak up early!
 
-Found a bug or unclear instruction? File an issue on the
-[bah-fuzzing-lab repo](https://github.com/becomingahacker/bah-fuzzing-lab/issues)
-and tag the day + exercise number.
+## Asking for help
+
+Throughout the workshop, raise your hand on WebEx or message one of the presenters any time you get stuck. 
+Being stuck for more than ~10 minutes on the same problem is a great signal to ask.  Fuzzing has a lot of
+moving parts and it is much faster to debug together with someone who has hit every issues you're running into.
