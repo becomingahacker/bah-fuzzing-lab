@@ -1,10 +1,10 @@
 ---
-title: "Part 2: Reverse-Engineering the API"
+title: "Part 2: Reverse-Engineering the function"
 parent: "Day 2: Closed-Source Firmware with AFL++"
 nav_order: 2
 ---
 
-# Part 2: Reverse-Engineering the API
+# Part 2: Reverse-Engineering the function
 
 We need to understand our two target functions well enough to be able to call them. We'll start with `QDecode` because it's smaller and
 will be quicker to understand.

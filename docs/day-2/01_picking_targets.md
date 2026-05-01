@@ -127,4 +127,4 @@ state), making them trivial to harness.
 > **Note:** These walkthroughs take you through our journey of harnessing these functions.  The exercise
 > at the end has you fuzz `mime_disposition_new` (`Content-Disposition` parser) on your own.
 
-Next: [Part 2: Reverse-Engineering the API]({% link day-2/02_reverse_engineering.md %})
+Next: [Part 2: Reverse-Engineering the function]({% link day-2/02_reverse_engineering.md %})
