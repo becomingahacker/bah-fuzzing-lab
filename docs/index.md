@@ -12,12 +12,12 @@ You will build fuzzing harnesses for real commercial software, run them with bot
 
 ## What you'll do
 
-- **Day 1 — Snort 3 with LibFuzzer.** Build a fuzzer for Snort 3's  `bootp` service detector,
+- **Day 1:  Snort 3 with LibFuzzer.** Build a fuzzer for Snort 3's  `bootp` service detector,
   and tweak it for coverage and stability until it finds a real crash.
-- **Day 2 — Closed-source firmware with AFL++ QEMU mode.** Deep inside an extracted Sophos Firewall OS firwmare,
+- **Day 2: Closed-source firmware with AFL++ QEMU mode.** Deep inside an extracted Sophos Firewall OS firwmare,
   you'll learn to do some light reverse engineering, convert an executable to a fuzzable shared
   library with LIEF, and run AFL++ with CMPLOG and QASAN in hopes of finding a new bug.
-- **Bonus Challenge — Parking Game.** Use a fuzzer to solve a puzzle game. Great practice for writing fuzzers for stateful targets.
+- **Bonus Challenge: Parking Game.** Use a fuzzer to solve a puzzle game. Great practice for writing fuzzers for stateful targets.
   There is less instruction on this one, so make sure to ask questions if stuck.
 
 ## How the lab is set up
