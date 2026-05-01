@@ -1,8 +1,8 @@
 ---
-title: "Part 1: Picking a Fuzzing Target"
+
+## title: "Part 1: Picking a Fuzzing Target"
 parent: "Day 2: Closed-Source Firmware with AFL++"
 nav_order: 1
----
 
 # Part 1: Picking a Fuzzing Target
 
@@ -13,9 +13,9 @@ you start?
 
 We want to find programs/libraries that:
 
-* Parse untrusted input (network packets, file formats, protocol fields)
-* Can be run/emulated without the full system running
-* Are complex enough to have bugs (not a thin wrapper or simple tool)
+- Parse untrusted input (network packets, file formats, protocol fields)
+- Can be run/emulated without the full system running
+- Are complex enough to have bugs (not a thin wrapper or simple tool)
 
 ## Surveying the firmware
 
@@ -77,9 +77,9 @@ You should also remove the `wc -l` after, to see what those exports look like.
 
 Here are a few results that were considered:
 
-* `mailscanner` likely does email processing.  It has symbols related to MIME parsing, SMTP, IMAP
-* `awarrensmtp` seems to be an SMTP proxy with a state machine for parsing an SMTP conversation
-* `ftpproxy` looks like it parses FTP commands
+- `mailscanner` likely does email processing.  It has symbols related to MIME parsing, SMTP, IMAP
+- `awarrensmtp` seems to be an SMTP proxy with a state machine for parsing an SMTP conversation
+- `ftpproxy` looks like it parses FTP commands
 
 Out of these, we chose `mailscanner` partly because it had the most exports and was the largest of the three,
 which in some cases indicates it has lots of code to test.
@@ -118,8 +118,8 @@ which we'll cover in [Part 3]({% link day-2/03_writing_harness.md %}).
 
 We'll fuzz two functions from `mailscanner`:
 
-* `Qdecode`, which is a small function that parses [quoted-printable encoded text](https://dencode.com/en/string/quoted-printable)
-* `mime_content_type_new_from_string`, a larger function which parses `Content-Type` header values
+- `Qdecode`, which is a small function that parses [quoted-printable encoded text](https://dencode.com/en/string/quoted-printable)
+- `mime_content_type_new_from_string`, a larger function which parses `Content-Type` header values
 
 Both take a string buffer and its length as input (no complex structs or global
 state), making them trivial to harness.
