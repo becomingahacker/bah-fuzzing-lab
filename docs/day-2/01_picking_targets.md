@@ -1,8 +1,8 @@
 ---
-
-## title: "Part 1: Picking a Fuzzing Target"
+title: "Part 1: Picking a Fuzzing Target"
 parent: "Day 2: Closed-Source Firmware with AFL++"
 nav_order: 1
+---
 
 # Part 1: Picking a Fuzzing Target
 

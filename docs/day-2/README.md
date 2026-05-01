@@ -1,10 +1,9 @@
 ---
-
-## title: "Day 2: Closed-Source Firmware with AFL++"
-
+title: "Day 2: Closed-Source Firmware with AFL++"
 nav_order: 3
 has_children: true
 permalink: /day-2/
+---
 
 # Fuzzing Closed-Source Firmware with AFL++ QEMU Mode
 

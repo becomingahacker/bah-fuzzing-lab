@@ -1,8 +1,8 @@
 ---
-
-## title: Home
+title: Home
 layout: home
 nav_order: 1
+---
 
 # OS2026 Fuzzing Workshop
 
