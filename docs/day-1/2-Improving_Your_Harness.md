@@ -52,7 +52,7 @@ llvm-cov show -format=text -instr-profile=cov.profdata \
 ```bash
 rm -rf build
 export AFL_DIR=/home/cisco/AFLplusplus # or wherever the path to AFL++ is
-export AFL_LIBRARY_DIR=/home/cisco/AFLplusplus # or wherever the path to LibFuzzer.a
+export AFL_LIBRARY_DIR=/home/cisco/AFLplusplus # or wherever the path to libAFLDriver.a
 ./fuzz/scripts/compile/build-afl-fuzzers.sh
 ```
 
