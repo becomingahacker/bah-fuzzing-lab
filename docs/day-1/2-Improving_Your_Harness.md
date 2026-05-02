@@ -16,7 +16,6 @@ Congratulations! You now have a working harness. There are two main aspects to t
 cd build
 ```
 
-
 - Now build your specific harness, and then run the harness for a few minutes with crash detection off. The goal isn't to find a crash right off the bat, but just to make sure that the harness can find its way through the entirety of your target. 
 
 ```
@@ -42,17 +41,18 @@ llvm-cov show -format=text -instr-profile=cov.profdata \
 
 - Sometimes the answer is to run the harness for a bit longer, especially for more complicated codepaths. If your coverage stats for your target are not 100%, take a look at what might be different! Play around with the harness to find out what you might need to get full coverage. Feel free to ask a helper if you get stuck. 
 - When you fix what you think is the issue, go through the above process again and see if your coverage stats improve.
+
 ## Stability
 - A good fuzzing harness needs to be stable. This means that whenever an input is replayed in the harness, it will always come out with the same result and hit the same code paths. 
 - You usually want to be aiming for above 100%, or close to 100% stability on your harnesses.
 - This matters because low stability means that the fuzzer can't tell real new coverage from noise and wastes cycles on non-bugs and may miss real ones.
 - The usual suspects can include global states that don't clear themselves after each input, RNG without a fixed seed, time/clock calls, ASLR-dependent iteration order, or threads.
 - Let's take a gander at instrumenting our binary with AFL so that we can measure stability. First, remove the original build and then rebuild with the given compile script.
-`
+
 ```bash
 rm -rf build
-export AFL_DIR=/home/cisco/AFLplusplus
-export AFL_LIBRARY_DIR=/home/cisco/AFLplusplus
+export AFL_DIR=/home/cisco/AFLplusplus # or wherever the path to AFL++ is
+export AFL_LIBRARY_DIR=/home/cisco/AFLplusplus # or wherever the path to LibFuzzer.a
 ./fuzz/scripts/compile/build-afl-fuzzers.sh
 ```
 
